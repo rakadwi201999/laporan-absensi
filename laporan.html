@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Form Laporan Harian</title>
+  <script>
+    if (!localStorage.getItem("loggedIn")) {
+      window.location.href = "login.html";
+    }
+
+    function submitLaporan(event) {
+      event.preventDefault();
+      const laporan = {
+        nama: document.getElementById("nama").value,
+        lokasi: document.getElementById("lokasi").value,
+        kegiatan: document.getElementById("kegiatan").value,
+        hasil: document.getElementById("hasil").value,
+        kendala: document.getElementById("kendala").value,
+        catatan: document.getElementById("catatan").value,
+        waktu: new Date().toLocaleTimeString('id-ID')
+      };
+      const format = `
+📋 *LAPORAN HARIAN*
+🗓️ Tanggal: *${new Date().toLocaleDateString('id-ID')}*
+👤 Petugas: *${laporan.nama}*
+📍 Lokasi: *${laporan.lokasi}*
+
+✅ *KEGIATAN HARI INI:*
+- ${laporan.kegiatan}
+
+📊 *HASIL PENGAMATAN / CATATAN:*
+- ${laporan.hasil}
+
+⚠️ *KENDALA / PERMASALAHAN:*
+- ${laporan.kendala}
+
+📝 *CATATAN TAMBAHAN:*
+- ${laporan.catatan}
+
+🕓 *Waktu Kirim:* *${laporan.waktu} WIB*`;
+
+      document.getElementById("output").value = format;
+    }
+  </script>
+</head>
+<body>
+  <h2>Form Laporan Harian</h2>
+  <form onsubmit="submitLaporan(event)">
+    <label>Nama Petugas: <input type="text" id="nama" required /></label><br />
+    <label>Lokasi: <input type="text" id="lokasi" required /></label><br />
+    <label>Kegiatan Hari Ini:<br /><textarea id="kegiatan" required></textarea></label><br />
+    <label>Hasil Pengamatan:<br /><textarea id="hasil"></textarea></label><br />
+    <label>Kendala:<br /><textarea id="kendala"></textarea></label><br />
+    <label>Catatan Tambahan:<br /><textarea id="catatan"></textarea></label><br />
+    <button type="submit">Buat Laporan</button>
+  </form>
+
+  <h3>📋 Laporan Siap Kirim (WhatsApp)</h3>
+  <textarea id="output" rows="15" cols="60"></textarea><br />
+  <button onclick="navigator.clipboard.writeText(document.getElementById('output').value)">Salin ke Clipboard</button>
+  <br /><br />
+  <a href="absensi.html">👉 Ke Halaman Absensi</a>
+</body>
+</html>

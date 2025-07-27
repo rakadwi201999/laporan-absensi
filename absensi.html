@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Absensi</title>
+  <script>
+    if (!localStorage.getItem("loggedIn")) {
+      window.location.href = "login.html";
+    }
+
+    function submitAbsensi(event) {
+      event.preventDefault();
+      const nama = document.getElementById("nama").value;
+      const shift = document.querySelector('input[name="shift"]:checked').value;
+      const waktu = new Date().toLocaleString('id-ID');
+
+      const hasil = `🕒 ABSENSI
+👤 Nama: *${nama}*
+⏰ Shift: *${shift}*
+📅 Waktu: *${waktu}*`;
+      document.getElementById("output").value = hasil;
+    }
+  </script>
+</head>
+<body>
+  <h2>Form Absensi</h2>
+  <form onsubmit="submitAbsensi(event)">
+    <label>Nama: <input type="text" id="nama" required /></label><br />
+    <label>
+      <input type="radio" name="shift" value="Pagi" required /> Shift Pagi
+    </label>
+    <label>
+      <input type="radio" name="shift" value="Malam" required /> Shift Malam
+    </label><br />
+    <button type="submit">Absensi</button>
+  </form>
+
+  <h3>✅ Hasil Absensi</h3>
+  <textarea id="output" rows="6" cols="60"></textarea><br />
+  <button onclick="navigator.clipboard.writeText(document.getElementById('output').value)">Salin ke Clipboard</button>
+  <br /><br />
+  <a href="laporan.html">🔙 Kembali ke Laporan</a>
+</body>
+</html>
